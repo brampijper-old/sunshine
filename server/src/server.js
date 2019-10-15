@@ -9,15 +9,16 @@ const morgan = require('morgan');
 
 //is building an express server
 const app = express();
+
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
 const port = 3000;
 
-app.get('/status', (req, res) => {
+app.post('/register', (req, res) => {
     res.send({
-        message: 'hello world'
+        message: `Hello ${req.body.email}! Your user was registered, have fun!`
     })
 })
 
