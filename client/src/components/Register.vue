@@ -1,46 +1,152 @@
 <template>
-    <div class="form__container">
-        <h1> Welcome, to the register page! </h1>
+    <div class="landing__container">
+        <div class="container__left">
+            <h1 class="left__title"> Sign Up </h1>
 
-        <input 
-            type="text"
-            name="email"
-            v-model="email"
-            placeholder="email" />
-        <input
-            type="password"
-            name="password"
-            v-model="password"
-            placeholder="password" />
-        <button
-            @click="register">
-            Register
-        </button>
+            <label for="email">Email adress</label>
+            <input 
+                type="text"
+                name="email"
+                v-model="email"
+                placeholder="Enter email adress" />
+
+            <label for="password">Create password</label>
+            <input
+                type="password"
+                name="password"
+                v-model="password"
+                placeholder="Password" />
+            
+            <div class="error" v-html="error" />
+
+            <primary-button :onClick="register" buttonSize="big">
+                Register
+            </primary-button>
+
+            <div class="left__login-link">
+                Already have an account?
+                <a href="#"> Log in </a>
+            </div>
+        </div>
+        <div class="container__right">
+            <article class="right__intro">
+                Sunshine is a webapplication build for people that need more sunshine in their life.
+                Vitamine D is essential to live a healthy life, especially during the dark months.
+                <br> <br>
+                Sign up to receive notifications when the sun is shining on a clear sky day
+                and enjoy going outside for 10 minutes to boost your immune system.
+            </article>
+        </div>
     </div>
 </template>
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService';
+import PrimaryButton from './PrimaryButton.vue'
 export default {
+    components: {
+        PrimaryButton
+    },
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            error: null
         }
     },
     methods: {
         async register() {
-            await AuthenticationService.register({
-                email: this.email,
-                password: this.password
-            })
-            console.log(response.data)
+            try {
+                await AuthenticationService.register({
+                    email: this.email,
+                    password: this.password
+                })
+            } catch (error) {
+                this.error = error.response.data.error
+            }
         }
     }
 }
 </script>
 
 <style scoped>
-.form__container input {
+.landing__container {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    height:100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.container__left {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 30vw;
+    max-width: 410px;
+    margin: 0 auto;
+}
+
+.container__left input {
+    width:100%;
+    font-size: 17px;
+    border-radius: 13px;
+    border: 1px solid #E5EAEC;
+    line-height: 26px;
+    padding: 10px 0 10px 0;
+    padding-left:5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.4);
+    margin: 5px 0 35px 0;
+}
+
+.container__left label {
+    font-size:14px;
+    padding-left:5px;
+    opacity:0.8;
+}
+
+.container__left button, .error {
+    margin: 10px 0px 25px 0px;   
+}
+
+.left__title {
+    font-size: 56px;
+    line-height: 68px;
+    font-weight: 700;
+    margin: 0px 0px 41px 0px;
+}
+
+.left__login-link {
+    margin-top:25px;
+
+}
+
+.left__login-link a {
+    text-decoration: none;
+    color: rgb(44, 54, 161);
+    font-weight:700;
+}
+
+.container__right {
+    background-color: #0B1033;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align:left;
+}
+
+.right__intro {
+    width: 30vw;
+    max-width: 410px;
+    margin: 0 auto;
+    font-size: 24px;
+    line-height: 36px;
+    color: #FFFFFF;
+}
+
+.error {
+    color:red;
 }
 </style>
