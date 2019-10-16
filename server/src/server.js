@@ -1,25 +1,21 @@
-const express = require('express');
+require('dotenv').config();
 
-//process json data easily
+const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-//printing out logs
 const morgan = require('morgan');
+const {sequelize} = require('./models')
+const config = require('./config/config')
 
-//is building an express server
 const app = express();
-
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-const port = 3000;
+require('./routes')(app)
 
-app.post('/register', (req, res) => {
-    res.send({
-        message: `Hello ${req.body.email}! Your user was registered, have fun!`
+sequelize.sync()
+    .then(() => {
+        app.listen(config.port)
+        console.log(`server started on port ${config.port}`)
     })
-})
-
-app.listen(port, () => console.log(`Server running at on port:${port}!`));
