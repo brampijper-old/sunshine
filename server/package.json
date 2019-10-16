@@ -10,10 +10,13 @@
   "author": "Bram Pijper",
   "license": "MIT",
   "dependencies": {
+    "@hapi/joi": "^16.1.7",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
+    "pg": "^7.12.1",
     "sequelize": "^5.19.6"
   }
 }
