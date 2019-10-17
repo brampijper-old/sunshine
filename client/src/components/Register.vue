@@ -3,19 +3,21 @@
         <div class="container__left">
             <h1 class="left__title"> Sign Up </h1>
 
-            <label for="email">Email adress</label>
-            <input 
-                type="text"
-                name="email"
-                v-model="email"
-                placeholder="Enter email adress" />
+            <form name="sunshine-register-form" autocomplete="off">
+                <label for="email">Email adress</label>
+                <input 
+                    type="text"
+                    name="email"
+                    v-model="email"
+                    placeholder="Enter email adress" />
 
-            <label for="password">Create password</label>
-            <input
-                type="password"
-                name="password"
-                v-model="password"
-                placeholder="Password" />
+                <label for="password">Create password</label>
+                <input
+                    type="password"
+                    name="password"
+                    v-model="password"
+                    placeholder="Password" />
+            </form>
             
             <div class="error" v-html="error" />
 
@@ -59,9 +61,15 @@ export default {
     methods: {
         async register() {
             try {
-                await AuthenticationService.register({
+                const response = await AuthenticationService.register({
                     email: this.email,
                     password: this.password
+                })
+                this.$store.dispatch('setToken', response.data.token)
+                this.$store.dispatch('setUser', response.data.user)
+                this.$store.dispatch('setMessage', response.data.message)
+                this.$router.push({
+                    name: 'settings'
                 })
             } catch (error) {
                 this.error = error.response.data.error
