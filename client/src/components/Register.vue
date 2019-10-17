@@ -19,13 +19,13 @@
             
             <div class="error" v-html="error" />
 
-            <primary-button :onClick="register" buttonSize="big">
+            <primary-button @clicked="register" buttonSize="big">
                 Register
             </primary-button>
 
             <div class="left__login-link">
                 Already have an account?
-                <a href="#"> Log in </a>
+                <span @click="navigateTo('login')"> Log in </span>
             </div>
         </div>
         <div class="container__right">
@@ -42,8 +42,10 @@
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService';
-import PrimaryButton from './PrimaryButton.vue'
+import PrimaryButton from './PrimaryButton.vue';
+import { navigateToMixin } from '../mixins/navigateToMixin.js'
 export default {
+    mixins: [navigateToMixin],
     components: {
         PrimaryButton
     },
@@ -74,7 +76,6 @@ export default {
     display:grid;
     grid-template-columns: 1fr 1fr;
     height:100vh;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .container__left {
@@ -119,11 +120,10 @@ export default {
 
 .left__login-link {
     margin-top:25px;
-
 }
 
-.left__login-link a {
-    text-decoration: none;
+.left__login-link span {
+    cursor: pointer;
     color: rgb(44, 54, 161);
     font-weight:700;
 }
