@@ -1,5 +1,5 @@
 <template>
-    <button @click="onClick" :class="'Button ' + buttonSize">
+    <button @click="clicked" :class="'Button ' + buttonSize">
         <slot>Button</slot>
     </button>
 </template>
@@ -8,9 +8,10 @@
 export default {
     props: {
         buttonSize: String,
-        onClick: {
-            type: Function,
-            required: true
+    },
+    methods: {
+        clicked() {
+            this.$emit('clicked')
         }
     }
 }
