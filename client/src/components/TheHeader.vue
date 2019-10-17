@@ -1,14 +1,33 @@
 <template>
     <div class="header">
-        <span class="header__title" @click="navigateTo('root')">
+        <span class="header__title" @click="navigateTo('home')">
             Sunshine 
         </span>
-        <span class="header__login" @click="navigateTo('login')">
-            Log in
-        </span>
-        <PrimaryButton @clicked="navigateTo('register')" class="header__button" buttonSize="small">
-            Sign up
-        </PrimaryButton>
+
+        <div v-if="!this.$store.state.isUserLoggedIn">
+            <span  class="header__login" @click="navigateTo('login')">
+                Log in
+            </span>
+            <PrimaryButton
+                @clicked="navigateTo('register')" 
+                class="header__button"
+                buttonSize="small"
+            >
+                Sign up
+            </PrimaryButton>
+        </div>
+        <div v-else>
+            <span class="header__settings" @click="navigateTo('settings')">
+                Settings 
+            </span>
+            <PrimaryButton
+                @clicked="logout" 
+                class="header__button"
+                buttonSize="small"
+            >
+                Log Out
+            </PrimaryButton>
+        </div>
     </div>
 </template>
 
@@ -21,9 +40,12 @@ export default {
         PrimaryButton
     },
     methods: {
-        navigateTo(route) {
-            this.$router.push(route)
-            .catch(err => { return err})
+        logout() { 
+            this.$store.dispatch('setToken', null)
+            this.$store.dispatch('setUser', null)
+            this.$router.push({
+                name: 'home'
+            })
         }
     }
 }
@@ -39,7 +61,7 @@ export default {
 
 .header__button {
     justify-self: flex-end;
-    margin-right: 25px;
+    margin-right: 5vw;
 }
 
 .header__button a {
@@ -49,7 +71,7 @@ export default {
 
 .header__title {
     margin-right: auto;
-    margin-left: 25px;
+    margin-left: 5vw;
     font-size: 25px;
 }
 
@@ -61,7 +83,21 @@ export default {
     padding-right: 25px;
 }
 
-.header__title:hover, .header__login:hover {
+.header__settings {
+    color: rgb(44, 54, 161);
+    font-weight:700;
+    font-size: 18px;
+    position: absolute;
+    padding-top:10px;
+    left: 50%;
+    transform: translate(-50%, 0)
+}
+
+.header__settings:hover {
+    border-bottom: 2px solid rgb(44, 54, 161);
+}
+
+.header__title:hover, .header__login:hover, .header__settings:hover {
     cursor: pointer;
 }
 </style>
