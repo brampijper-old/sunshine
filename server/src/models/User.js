@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             unique: true
         },
-        password: DataTypes.STRING
+        password: DataTypes.STRING,
+        adress: {
+            type: DataTypes.JSONB
+        }
     },
     {
         hooks: {

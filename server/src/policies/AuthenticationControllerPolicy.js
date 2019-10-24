@@ -7,6 +7,12 @@ module.exports = {
                 .email(),
             password: Joi.string()
                 .pattern(/^[a-zA-Z0-9]{8,32}$/),
+            adress: Joi.object({
+                city: Joi.string(), 
+                lat: Joi.number(),
+                lng: Joi.number(),
+            })
+            .required()
         })
 
         const {error, value} = schema.validate(req.body)
@@ -26,6 +32,11 @@ module.exports = {
                             <br>
                             2. It must be at least 8 characters in length and not greater than 32 characters in length.
                         `
+                    })
+                    break
+                case 'adress':
+                    res.status(400).send({
+                        error: 'Something went wrong, try another location'
                     })
                     break
                 default:
