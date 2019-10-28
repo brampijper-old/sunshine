@@ -5,7 +5,7 @@
         </span>
 
         <div v-if="!this.$store.state.isUserLoggedIn">
-            <span  class="header__login" @click="navigateTo('login')">
+            <span class="header__login" @click="toggleModal">
                 Log in
             </span>
             <PrimaryButton
@@ -28,16 +28,26 @@
                 Log Out
             </PrimaryButton>
         </div>
+
+        <TheHeaderLoginPopup v-if="showLoginPopup" />
     </div>
 </template>
 
 <script>
+import AuthenticationService from '@/services/AuthenticationService';
 import PrimaryButton from './PrimaryButton.vue';
 import {navigateToMixin} from '../mixins/navigateToMixin.js';
+import TheHeaderLoginPopup from './TheHeaderLoginPopup.vue';
 export default {
     mixins: [navigateToMixin],
     components: {
-        PrimaryButton
+        PrimaryButton,
+        TheHeaderLoginPopup
+    },
+    data() {
+        return {
+            showLoginPopup: false,
+        }
     },
     methods: {
         logout() { 
@@ -46,6 +56,9 @@ export default {
             this.$router.push({
                 name: 'home'
             })
+        },
+        toggleModal() {
+            !this.showLoginPopup ? this.showLoginPopup = true : this.showLoginPopup = false;
         }
     }
 }
