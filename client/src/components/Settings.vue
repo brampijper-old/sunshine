@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="settings__container">
         <span v-if="this.$store.state.message" class="message">
             {{this.$store.state.message}}
         </span>
@@ -14,5 +14,13 @@
 <style scoped>
 span {
     color: #3EAF7C;
+}
+
+.settings__container {
+    display: flex;
+    width: 50vw;
+    flex-flow: column;
+    margin: 0 auto;
+    margin-top: 150px;
 }
 </style>
